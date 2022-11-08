@@ -1,0 +1,198 @@
+@keyframes color {
+    0% {
+        background: #33CCCC;
+    }
+
+    20% {
+        background: #18d61b;
+    }
+
+    40% {
+        background: #1473e0;
+    }
+
+    60% {
+        background: #ea1927;
+    }
+
+    80% {
+        background: #de1fe4;
+    }
+
+    100% {
+        background: #ae4766;
+    }
+}
+
+body {
+    background: #07a11f;
+    animation: color 12s infinite linear;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.main {
+    margin-top: 100px;
+}
+
+.wrapper {
+    width: 50%;
+    margin: 0 auto;
+    background-color: rgba(169, 172, 166, 0.818);
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.lists {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item {
+    background-color: aqua;
+    width: 100%;
+    text-align: center;
+    font-size: 30px;
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+.sign {
+    color: black;
+}
+
+.sign:hover {
+    color: black;
+}
+
+.active {
+    background-color: rgb(81, 255, 0);
+}
+
+.form-control {
+    width: 100%;
+    max-width: 590px;
+    margin: 10px 0;
+}
+
+.label {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+label {
+    width: 100%;
+}
+
+.btn {
+    width: 100%;
+    margin-top: 30px;
+    font-size: 25px;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.itemgogle {
+    width: 50%;
+    text-align: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 0;
+    border-radius: 50px;
+}
+
+.github {
+    background-color: black;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.link {
+    text-decoration: none;
+    display: inline-block;
+    color: rgb(0, 0, 0);
+    font-size: 25px;
+}
+
+
+.githublink {
+    color: #fff;
+}
+
+.link:hover {
+    color: rgb(0, 0, 0);
+}
+
+.githublink:hover {
+    color: #fff;
+}
+
+.fa-google {
+    font-size: 18px;
+    color: red;
+}
+
+.g {
+    color: blue;
+}
+
+.o {
+    color: red;
+}
+
+.oo {
+    color: darkgoldenrod;
+}
+
+.l {
+    color: green;
+}
+
+.password {
+    position: relative;
+    padding-right: 90px;
+}
+
+
+.blockof {
+    margin-left: -50px;
+    z-index: 5;
+    cursor: pointer;
+}
+
+.blockon {
+    margin-left: -50px;
+    z-index: 6;
+    cursor: pointer;
+    display: none;
+}
+
+.blockonactiv {
+    display: none;
+}
+
+.blockonactivof {
+    display: block;
+}
+
+.forgot {
+    text-decoration: none;
+    display: inline-block;
+    color: red;
+    font-size: 18px;
+}
+
+.forgot:hover {
+    color: red;
+}
