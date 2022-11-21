@@ -1,88 +1,154 @@
-let elForm = document.querySelector(".form")
-let elInput = document.querySelector(".input")
-const elList = document.querySelector(".list")
-const tokenLogin = localStorage.getItem("tokenlogin");
+const tokenLogin = localStorage.getItem("token-login");
+const elFormTodo = document.querySelector(".form-todo");
+const elFormTodoInput = document.querySelector(".inputtodo");
+const elTodoList = document.querySelector(".list-todo");
 
 
-if (!tokenLogin) {
-    window.location.reload();
-    window.location.pathname = "login.html";
-}
+if(!tokenLogin){
+  window.location.reload();
+  window.location.pathname = "login.html";
+};
 
-function todoPost() {
-    try {
-        fetch("http://192.168.7.64:5000/todo", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: tokenLogin,
-            },
-            body: JSON.stringify({
-                text: elInput.value.trim()
-            }),
-        })
-    } catch (error) {
-        console.log(error);
+// setTimeout
+
+async function getTodos(){
+  try {
+    const response = await fetch("http://192.168.6.201:5000/todo",{
+    headers:{
+      Authorization: tokenLogin
     }
+  });
+
+  const data = await response.json();
+
+  elTodoList.innerHTML = "";
+
+  if(data.length > 0 ){
+    // const todoFragment = new DocumentFragment();
+
+    data.forEach(item =>{
+
+      elTodoList.innerHTML +=
+      `
+      <li>
+      ${item.todo_value}
+      <button class="edit-button" data-id="${item.id}">Edit</button>
+      <button class="delete-button" data-id="${item.id}">Delete</button>
+      </li>
+      `
+    });
+
+  }
+
+} catch (error) {
+  console.log(error);
+}
 }
 
-async function getTodos() {
-    try {
-        const respon = await fetch("http://192.168.7.64:5000/todo", {
-            headers: {
-                Authorization: tokenLogin
-            }
-        })
-        const data = await respon.json();
+function postTodo(){
+  try {
+    fetch("http://192.168.6.201:5000/todo", {
 
-        elList.innerHTML = "";
-        if (data.length > 0) {
+    method: "POST",
 
-            data.forEach(item => {
-                elList.innerHTML += `
-                
-        <li>
-        ${item.todo_value}
-        <button class= "btn-edit" data-id="${item.id}">Edit</button>
-        <button class= "btn-delete" data-id="${item.id}">Delete</button>
-        </li>
-                
-                `
-            })
-        }
+    headers:{
+      "Content-Type": "application/json",
+      Authorization: tokenLogin
+    },
 
-    } catch (error) {
-        console.log(error);
+    body:JSON.stringify(
+      {
+        text: elFormTodoInput.value.trim()
+      }
+      )
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function editTodo(id){
+  const newTodo = prompt("Edit todo");
+  fetch("http://192.168.6.201:5000/todo/" + id, {
+  method:"PUT",
+
+  headers:{
+    "Content-Type":"application/json",
+    Authorization: tokenLogin
+  },
+
+  body:JSON.stringify(
+    {
+      text: newTodo
     }
+  )
+})
+.then(res => res.json())
+.then(data => console.log(data));
 }
 
-function deleteItem (id) {
-    fetch("http://192.168.7.64:5000/todo/" + id, {
-        method: "DELETE",
-        headers: {
-            Authorization: tokenLogin
-        }
-    })
-    .then (res => res.json())
-    .then (data => console.log(data))
+function deleteTodo(id){
+  fetch("http://192.168.6.201:5000/todo/" + id, {
+  method:"DELETE",
+
+  headers:{
+    Authorization: tokenLogin
+  }
+})
+.then(res => res.json())
+.then(data => console.log(data));
 }
 
 
-elList.addEventListener("click", function(evt) {
-    if(evt.target.matches(".btn-delete")) {
-        const id = evt.target.dataset.id;
-        deleteItem(id);
-    }
+
+elFormTodo.addEventListener("submit", (evt)=>{
+  evt.preventDefault();
+  getTodos();
+  postTodo();
+
+
+
+  elFormTodoInput.value = "";
+});
+
+getTodos();
+
+
+elTodoList.addEventListener("click", (evt)=>{
+  if(evt.target.matches(".edit-button")){
+    const id =  evt.target.dataset.id;
+  editTodo(id)
+    // getTodos()
+    window.location.reload()
+  }
+});
+
+
+
+
+elTodoList.addEventListener("click", (evt)=>{
+  if(evt.target.matches(".delete-button")){
+    const id =  evt.target.dataset.id;
+    deleteTodo(id)
+    // getTodos()
+    window.location.reload()
+  }
 })
 
-elForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    todoPost();
-    getTodos();
-    elInput.innerHTML = "";
-})
 
-getTodos()
-// setInterval(() => {
-//     window.location.pathname = "login.html";
-// }, 8000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

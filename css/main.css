@@ -196,3 +196,8 @@ a {
 .forgot:hover {
     color: red;
 }
+
+.cols {
+    flex-shrink: 0;
+    
+}
