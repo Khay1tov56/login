@@ -20,7 +20,7 @@ async function register(){
     formDataRegister.append("phone", phoneValue)
     formDataRegister.append("password", passwordValue)
 
-    const response = await fetch("http://192.168.6.201:5000/user/register", {
+    const response = await fetch("http://192.168.5.180:5000/user/register", {
     method: "POST",
 
 
@@ -37,7 +37,7 @@ async function register(){
     console.log(data);
     if(data.token){
       window.localStorage.setItem("token-register", data.token);
-      window.location.pathname = "admin.html";
+      window.location.pathname = "index.html";
     }
 
   } catch (error) {

@@ -7,6 +7,15 @@ const elAdminProductPrice = document.querySelector(".product_price")
 let elList = document.querySelector(".list")
 let elTemplate = document.querySelector(".template").content;
 
+// let wfKey = "192.168.7.56"
+
+// // Modal
+// let elModalForm = document.querySelector(".modalForm")
+// let elModalProducetName = document.querySelector(".modal-product_name")
+// let elModalProducetDesc = document.querySelector(".modal-product_desc")
+// let elModalProducetImg = document.querySelector(".modal-product_img")
+// let elModalProducetPrice = document.querySelector(".modal-product_price")
+
 async function productPost() {
     const productNameValue = elAdminProductName.value.trim()
     const productDescValue = elAdminProductDesc.value.trim()
@@ -21,7 +30,7 @@ async function productPost() {
         adminData.append("product_desc", productDescValue)
         adminData.append("product_img", productImgValue.files[0])
         adminData.append("product_price", productPriceValue)
-        await fetch("http://192.168.6.201:5000/product", {
+        await fetch("http://192.168.5.180:5000/product", {
             method: "POST",
             headers: {
                 Authorization: tokenLogin,
@@ -38,7 +47,7 @@ async function productGet() {
 
 
     try {
-        let res = await fetch("http://192.168.6.201:5000/product", {
+        let res = await fetch("http://192.168.5.180:5000/product", {
             headers: {
                 Authorization: tokenLogin,
 
@@ -47,15 +56,15 @@ async function productGet() {
         let data = await res.json()
         console.log(data);
         data.forEach(element => {
-         
+
             let elTemplateClone = elTemplate.cloneNode(true);
             console.log(element);
             elTemplateClone.querySelector(".ism").textContent = element.product_name;
-            elTemplateClone.querySelector(".image").src = `http://192.168.6.201:5000/${element.product_img}`;
+            elTemplateClone.querySelector(".image").src = `http://192.168.5.180:5000/${element.product_img}`;
             elTemplateClone.querySelector(".desc").textContent = element.product_desc;
             elTemplateClone.querySelector(".price").textContent = element.product_price;
             elTemplateClone.querySelector(".delete").dataset.id = element.id;
-            elTemplateClone.querySelector(".edit").dataset.id = element.id;
+            elTemplateClone.querySelector(".edit-button").dataset.id = element.id;
 
             fragment.appendChild(elTemplateClone);
         })
@@ -73,71 +82,131 @@ productGet()
 elAdminForm.addEventListener("submit", function (evt) {
     evt.preventDefault();
     productPost()
-    // window.location.reload();
 
-    elForm.innerHTML = "";
 })
 
 // Delete fn
 
-function deleteTodo(id){
-    fetch("http://192.168.6.201:5000/product/" + id, {
-    method:"DELETE",
-  
-    headers:{
-      Authorization: tokenLogin
-    }
-  })
-  .then(res => res.json())
-  .then(data => console.log(data));
+async function deleteTodo(id) {
+ 
+   try {
+    await fetch("http://192.168.5.180:5000/product/" + id, {
+
+            method: "DELETE",
+
+            headers: {
+
+                Authorization: tokenLogin,
+            }
+        })
+   } catch (error) {
+    console.log(error);
+   }
+    
+    
 }
 
 
-elList.addEventListener("click", (evt)=>{
-    if(evt.target.matches(".delete")){
-      const id =  evt.target.dataset.id;
-      deleteTodo(id)
-      // getTodos()
-      window.location.reload()
+elList.addEventListener("click", (evt) => {
+    if (evt.target.matches(".delete")) {
+        const id = evt.target.dataset.id;
+        deleteTodo(id)
+        // getTodos()
+        // window.location.reload()
     }
-  })
+})
+
+
+function editShop(id){
+    const formDate = new FormData()
+    
+    formDate.append("product_name", elAdminProductName.value.trim());
+    formDate.append("product_desc", elAdminProductDesc.value.trim());
+    formDate.append("product_price", elAdminProductPrice.value.trim());
+    formDate.append("product_img", elAdminProductImg.files[0]);
+    
+    fetch("http://192.168.5.180:5000/product/" + id, {
+    method:"PUT",
+    headers:{
+        Authorization: tokenLogin
+    },
+    body: formDate
+})
+}
+
+elList.addEventListener("click", (evt) =>{
+    if(evt.target.matches(".edit-button")){
+        console.log("found");
+        const id =  evt.target.dataset.id;
+        editShop(id)
+    }
+})
 
 
 //   Edit fn
 
 
-  function editTodo(id){
-    const newName = prompt("Name todo");
-    const newDesc = prompt("Desc todo");
-    const newPrice= prompt("Price todo");
-    fetch("http://192.168.6.201:5000/product/" + id, {
-    method:"PUT",
-  
-    headers:{
-      "Content-Type":"application/json",
-      Authorization: tokenLogin
-    },
-  
-    body:JSON.stringify(
-      {
-        product_name:newName,
-        product_desc: newDesc,
-        product_price: newPrice
-      }
-    )
-  })
-  .then(res => res.json())
-  .then(data => console.log(data));
-  }
-  
+// function edit(id) {
+    
+//         let dataForm = new FormData();
+
+//         dataForm.append("product_name", elAdminProductName.value)
+//         dataForm.append("product_desc", elAdminProductDesc.value)
+//         dataForm.append("product_img", elAdminProductImg.files[0])
+//         dataForm.append("product_price", elAdminProductPrice.value)
+
+//         let res = fetch("http://192.168.5.180:5000/product/" + id, {
+//                 method: "PUT",
+
+//                 headers: {
+
+//                     Authorization: tokenLogin
+//                 },
+
+//                 body: dataForm,
+//             })
+//             .then(res => res.json())
+//             .then(data => console.log(data))
+//             .catch(error => console.log(error))
+       
+
+// }
 
 
+// elList.addEventListener("click", (evt) => {
+//     if (evt.target.matches(".edit-button")) {
+//         const id = evt.target.dataset.id;
+//         edit(id)
+//         console.log(id);
+//         // getTodos()
+//         // window.location.reload()
+//     }
+// });
+
+
+// function editProduct(id) {
+//     let formEditData = new FormData();
   
-elList.addEventListener("click", (evt)=>{
-    if(evt.target.matches(".edit")){
-      const id =  evt.target.dataset.id;
-    editTodo(id)
-      // getTodos()
-      window.location.reload()
-    }
-  });
+//     formEditData.append("product_name", elAdminProductName.value);
+//     formEditData.append("product_desc", elAdminProductDesc.value);
+//     formEditData.append("product_img", elAdminProductImg.files[0]);
+//     formEditData.append("product_price", elAdminProductPrice.value);
+  
+//     fetch("http://192.168.5.180:5000/product/" + id, {
+//       method: "PUT",
+//       headers: {
+//         Authorization: tokenLogin,
+//       },
+//       body: formEditData,
+//     });
+//     console.log(formEditData);
+//   }
+  
+  
+//   elList.addEventListener("click", (evt) => {
+//     if (evt.target.matches(".edit-button")) {
+//       const editBtnId = evt.target.dataset.id;
+//       editProduct(editBtnId);
+//       console.log(editBtnId);
+//     }
+//   });
