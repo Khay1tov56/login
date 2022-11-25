@@ -147,7 +147,7 @@ async function productGet() {
 
 
     try {
-        let res = await fetch("http://192.168.5.180:5000/product", {
+        let res = await fetch("http://192.168.4.126:5000/product", {
             headers: {
                 Authorization: tokenLogin,
 
@@ -158,9 +158,9 @@ async function productGet() {
         data.forEach(element => {
 
             let elTemplateClone = elTemplate.cloneNode(true);
-            // console.log(element);
+            // console.log(element); 
             elTemplateClone.querySelector(".ism").textContent = element.product_name;
-            elTemplateClone.querySelector(".image").src = `http://192.168.5.180:5000/${element.product_img}`;
+            elTemplateClone.querySelector(".image").src = `http://192.168.4.126:5000/${element.product_img}`;
             elTemplateClone.querySelector(".desc").textContent = element.product_desc;
             elTemplateClone.querySelector(".price").textContent = element.product_price;
             elTemplateClone.querySelector(".buy").dataset.id = element.id;
@@ -190,7 +190,7 @@ elList.addEventListener("click", function (evt) {
         const orderDataForm = new FormData();
         orderDataForm.append("product_id", Number(id))
         try {
-            let res = await fetch("http://192.168.5.180:5000/order", {
+            let res = await fetch("http://192.168.4.126:5000/order", {
                 method: "POST",
 
                 headers: {

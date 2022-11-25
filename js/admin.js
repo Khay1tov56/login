@@ -30,7 +30,7 @@ async function productPost() {
         adminData.append("product_desc", productDescValue)
         adminData.append("product_img", productImgValue.files[0])
         adminData.append("product_price", productPriceValue)
-        await fetch("http://192.168.5.180:5000/product", {
+        await fetch("http://192.168.4.126:5000/product", {
             method: "POST",
             headers: {
                 Authorization: tokenLogin,
@@ -47,7 +47,7 @@ async function productGet() {
 
 
     try {
-        let res = await fetch("http://192.168.5.180:5000/product", {
+        let res = await fetch("http://192.168.4.126:5000/product", {
             headers: {
                 Authorization: tokenLogin,
 
@@ -60,7 +60,7 @@ async function productGet() {
             let elTemplateClone = elTemplate.cloneNode(true);
             console.log(element);
             elTemplateClone.querySelector(".ism").textContent = element.product_name;
-            elTemplateClone.querySelector(".image").src = `http://192.168.5.180:5000/${element.product_img}`;
+            elTemplateClone.querySelector(".image").src = `http://192.168.4.126:5000/${element.product_img}`;
             elTemplateClone.querySelector(".desc").textContent = element.product_desc;
             elTemplateClone.querySelector(".price").textContent = element.product_price;
             elTemplateClone.querySelector(".delete").dataset.id = element.id;
@@ -82,6 +82,9 @@ productGet()
 elAdminForm.addEventListener("submit", function (evt) {
     evt.preventDefault();
     productPost()
+    setTimeout(() => {
+        window.location.reload(); 
+     }, 1000);
 
 })
 
@@ -90,7 +93,7 @@ elAdminForm.addEventListener("submit", function (evt) {
 async function deleteTodo(id) {
  
    try {
-    await fetch("http://192.168.5.180:5000/product/" + id, {
+    await fetch("http://192.168.4.126:5000/product/" + id, {
 
             method: "DELETE",
 
@@ -99,6 +102,8 @@ async function deleteTodo(id) {
                 Authorization: tokenLogin,
             }
         })
+
+        
    } catch (error) {
     console.log(error);
    }
@@ -111,6 +116,9 @@ elList.addEventListener("click", (evt) => {
     if (evt.target.matches(".delete")) {
         const id = evt.target.dataset.id;
         deleteTodo(id)
+        setTimeout(() => {
+            window.location.reload(); 
+         }, 1000);
         // getTodos()
         // window.location.reload()
     }
@@ -125,7 +133,7 @@ function editShop(id){
     formDate.append("product_price", elAdminProductPrice.value.trim());
     formDate.append("product_img", elAdminProductImg.files[0]);
     
-    fetch("http://192.168.5.180:5000/product/" + id, {
+    fetch("http://192.168.4.126:5000/product/" + id, {
     method:"PUT",
     headers:{
         Authorization: tokenLogin
@@ -139,6 +147,9 @@ elList.addEventListener("click", (evt) =>{
         console.log("found");
         const id =  evt.target.dataset.id;
         editShop(id)
+        setTimeout(() => {
+            window.location.reload(); 
+         }, 1000);
     }
 })
 

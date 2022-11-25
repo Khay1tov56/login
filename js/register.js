@@ -20,7 +20,7 @@ async function register(){
     formDataRegister.append("phone", phoneValue)
     formDataRegister.append("password", passwordValue)
 
-    const response = await fetch("http://192.168.5.180:5000/user/register", {
+    const response = await fetch("http://192.168.4.126:5000/user/register", {
     method: "POST",
 
 

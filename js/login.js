@@ -10,7 +10,7 @@ async function login(){
     let dataFormLogin = new FormData();
     dataFormLogin.append("email", emailValueLogin)
     dataFormLogin.append("password", passwordValueLogin)
-    const response = await fetch("http://192.168.5.180:5000/user/login", {
+    const response = await fetch("http://192.168.4.126:5000/user/login", {
     method: "POST",
 
     body: dataFormLogin,

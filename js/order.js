@@ -7,7 +7,7 @@ async function productGet() {
 
 
     try {
-        let res = await fetch("http://192.168.5.180:5000/order", {
+        let res = await fetch("http://192.168.4.126:5000/order", {
             headers: {
                 Authorization: tokenLogin,
 
@@ -20,7 +20,7 @@ async function productGet() {
             let elTemplateClone = elTemplate.cloneNode(true);
             console.log(element);
             elTemplateClone.querySelector(".ism").textContent = element.product_name;
-            elTemplateClone.querySelector(".image").src = `http://192.168.5.180:5000/${element.product_img}`;
+            elTemplateClone.querySelector(".image").src = `http://192.168.4.126:5000/${element.product_img}`;
             elTemplateClone.querySelector(".delete").dataset.id = element.id;
 
             fragment.appendChild(elTemplateClone);
